@@ -1,8 +1,49 @@
 <html>
 <head>
-    <title>PopDaily</title>
+    <title>PopDaily {{article_type}}</title>
 </head>
 <body>
-    <p style="display:inline;">{{ urls[0] }}  </p><nobr><input type="button" value="前往" onclick="window.open('{{ urls[0] }}', '_blank')"/>
+    <script language="JavaScript">
+        var info = "{{ info }}".replaceAll("&#39;", '').replaceAll("{", '').replaceAll("}", '').replaceAll("[", '').replaceAll("]", '').split(',');
+        var title = "{{ title }}"
+        var post_date = "{{ post_date }}"
+        var tag = "{{ tag }}"
+        var url = "{{ url }}"
+        // var url = "{{ url }}".replace('[', '').replace(']', '').replaceAll("&#39;", '').split(',');
+        // var iterator = info.values();
+        // document.write(iterator.next().value)
+        // document.write(iterator.next().value)
+        // document.write(iterator.next().value)
+        // document.write(iterator.next().value)
+
+        write_info(post_date, title, tag, url);
+        
+        function write_info(post_date, title, tag, url){
+            document.write(post_date);
+            document.write("<h2>" + title + "</h2><br>");
+            document.write(tag);
+            document.write("<a href=" + url + " target='_blank'>" + url + "</a>");
+        }
+        // iterator.forEach(function (item, index) {
+        //     document.write(item.next().value);
+            // document.write(item[0].slice(6))
+            // document.write("<h2>" + item[1] + "</h2>")
+            // document.write(item[2])
+            // document.write("<a href=" + item[3] + " target='_blank'>" + item[3] + "</a><br>")
+        // })
+        // title.forEach(function (item, index) {
+        //     document.write("<h2>" + item + "</h2><br>")
+        // });
+        // links.forEach(function (item, index) {
+        //     document.write("<a href=" + item + " target='_blank'>" + item + "</a>")
+        // });
+        // post_date.forEach(function (item, index) {
+        //     document.write(item)
+        // });
+        // tag.forEach(function (item, index) {
+        //     document.write(item, "<br>")
+        // });
+
+    </script>
 </body>
 </html>

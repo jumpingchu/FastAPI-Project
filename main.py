@@ -39,4 +39,31 @@ def popdaily_latest_urls(article_type: str, request: Request):
     pattern = r'(?<=,\"url\":\")https://www.popdaily.com.tw/{}/\d+'.format(article_type)
     if resp.status_code == 200:
         urls = re.findall(pattern , resp.text)
-    return templates.TemplateResponse("item.html", {"request": request, "urls": urls})
+    dict_info = []
+    for url in urls:
+        dict_info.append(get_info(url))
+    
+    return_dict = {
+        "request": request,
+        "article_type": article_type.capitalize(),
+        "info": dict_info,
+        "post_date": [ i['post_date'] for i in dict_info ],
+        "title": [ i['title'] for i in dict_info ],
+        "tag": [ i['tag'] for i in dict_info ],
+        "url": [ i['url'] for i in dict_info ]
+    }
+
+    return templates.TemplateResponse("item.html", return_dict)
+
+def get_info(url):
+    resp = requests.get(url)
+    title = re.search(r'(?<=<title>).+(?=</title>)', resp.text).group()
+    articleBody = re.search(r'(?<="articleBody":").+(?=","mainEntityOfPage")', resp.text).group()
+    tag = re.findall(r'#(\w+)', articleBody)
+    post_date = re.search(r'(?<=dateTime=")\d+-\d+-\d+(?=T)', resp.text).group()
+    return {
+        'post_date': post_date,
+        'title': title,
+        'tag': ' / '.join(tag),
+        'url': url
+    }
