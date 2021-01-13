@@ -63,7 +63,7 @@ def get_info(url):
     post_date = re.search(r'(?<=dateTime=")\d+-\d+-\d+(?=T)', resp.text).group()
     return {
         'post_date': post_date,
-        'title': title,
+        'title': title.replace(',', ''),
         'tag': ' / '.join(tag),
         'url': url
     }
